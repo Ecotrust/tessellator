@@ -1,0 +1,17 @@
+# backups
+*~
+
+# Mac things
+.DS_Store
+._.*
+
+# Vagrant
+.vagrant/
+
+# python stuff
+*.pyc
+*.pyo
+__pycache__/
+
+# tiles
+*.mbtiles
