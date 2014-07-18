@@ -1,1 +1,4 @@
+# Django 1.6.x
 Django<=1.7
+pillow
+-e git+https://github.com/point97/django-mbtiles.git

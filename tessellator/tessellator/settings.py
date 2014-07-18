@@ -80,3 +80,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# MBTILES config
+MBTILES_APP_CONFIG = dict(
+    MBTILES_EXT='mbtiles',
+    MBTILES_ROOT='/path/to/tiles',
+    TILE_SIZE=256,
+    MISSING_TILE_404=True,
+)
+
+CACHES = {
+    # 'default': {
+    #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    #     'LOCATION': 'fleeting-photons',
+    # },
+    # 'redis': {
+    #     'BACKEND': 'redis_cache.RedisCache',
+    #     'LOCATION': 'localhost:6379',
+    #     'OPTIONS': {
+    #         'DB': 1,
+    #         'PARSER_CLASS': 'redis.connection.HiredisParser'
+    #     },
+    # },
+}
