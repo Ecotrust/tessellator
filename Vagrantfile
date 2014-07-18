@@ -19,7 +19,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible.verbose = 'vv'
         ansible.extra_vars = {
             name: 'tessellator',
-            
+            app_user: 'tessellator',
+            redis: true,
+            repo: 'https://github.com/point97/tessellator.git',
+            branch: 'master',
         }
     end
 end
