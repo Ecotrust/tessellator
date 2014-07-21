@@ -36,6 +36,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'mbtilesmap',
+    'api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,3 +106,5 @@ CACHES = {
     #     },
     # },
 }
+
+TASTYPIE_DEFAULT_FORMATS = ['json']

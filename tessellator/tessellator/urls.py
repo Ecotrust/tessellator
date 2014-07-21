@@ -16,4 +16,7 @@ urlpatterns = patterns('',
     
     # url(r'^(?P<name>%s)/(?P<z>(\d+|\{z\}))/(?P<x>(\d+|\{x\}))/(?P<y>(\d+|\{y\})).png$' % MBTILES_ID_PATTERN, cache_page(3600)(tile), name="tile"),
     url(r'^tiles/', include('mbtilesmap.urls')),
+    
+    # Tile metaapi
+    url('^api/', include('api.urls'))
 )
