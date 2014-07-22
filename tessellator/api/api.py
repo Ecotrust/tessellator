@@ -16,19 +16,30 @@ class TileResource(Resource):
     
     def get_object_list(*args):
         return list(t for t in MBTiles.objects.all())
-        
+    
+    def obj_get(self, bundle, **kwargs):
+        pk = kwargs.get('pk', '')
+        return self._build_resultset([MBTiles(name=pk)])
+        return None
+    
     def obj_get_list(self, bundle):
-        results = []
+        return self._build_resultset(MBTiles.objects.all())
+    
+    def _build_resultset(self, objects):
+        # class that exists only to hold fields defined above 
+        # (I'm missing something here)
         class bag:
             pass
-        for t in MBTiles.objects.all():
-            d = dict(name=t.name, catalog=t.catalog, minzoom=t.minzoom, 
-                     maxzoom=t.maxzoom, bounds=t.bounds) 
+        
+        results = []
+        for t in objects:
             b = bag()
             b.catalog = t.catalog
             b.name = t.name
             b.minzoom = t.minzoom 
             b.maxzoom = t.maxzoom
+            b.bounds = t.bounds
             
             results.append(b)
         return results
+        
