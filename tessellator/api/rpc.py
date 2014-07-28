@@ -28,3 +28,27 @@ def dataset_list():
                         })
     return results
 
+@rpcmethod()
+def dataset_get(name):
+    """Return information on the named dataset.
+    """
+    
+    print "Getting dataset!", name
+    tile = MBTiles(name)
+    print tile
+    url = reverse('tile', kwargs={'name': tile.name, 
+                  'x': '111', 'y': '222', 'z': '333'})
+    url = url.replace('111', '${x}')
+    url = url.replace('222', '${y}')
+    url = url.replace('333', '${z}')
+    preview = reverse('preview', kwargs={'name': tile.name})
+    
+    return {
+        'name': tile.name,
+        'catalog': tile.catalog,
+        'minzoom': tile.minzoom,
+        'maxzoom': tile.maxzoom,
+        'bounds': tile.bounds,
+        'url': url,
+        'preview': preview
+    }
