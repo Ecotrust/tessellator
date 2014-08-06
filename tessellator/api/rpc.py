@@ -10,12 +10,12 @@ def dataset_list():
     results = []
     for tile in MBTiles.objects.all():
         try:
-            url = reverse('tile', kwargs={'name': tile.name, 
+            url = reverse('tile', kwargs={'name': tile.name.replace(" ", ''), 
                           'x': '111', 'y': '222', 'z': '333'})
             url = url.replace('111', '${x}')
             url = url.replace('222', '${y}')
             url = url.replace('333', '${z}')
-            preview = reverse('preview', kwargs={'name': tile.name})
+            preview = reverse('preview', kwargs={'name': tile.name.replace(" ", '')})
             
         except Exception as e:
             print str(e), e.__class__
