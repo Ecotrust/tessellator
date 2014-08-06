@@ -36,6 +36,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'rpc4django',
+    'api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -89,7 +92,7 @@ MBTILES_APP_CONFIG = dict(
     MISSING_TILE_404=True,
 )
 
-CACHES = {
+# CACHES = {
     # 'default': {
     #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     #     'LOCATION': 'fleeting-photons',
@@ -102,4 +105,4 @@ CACHES = {
     #         'PARSER_CLASS': 'redis.connection.HiredisParser'
     #     },
     # },
-}
+# }
