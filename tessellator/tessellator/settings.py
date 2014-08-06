@@ -92,7 +92,7 @@ MBTILES_APP_CONFIG = dict(
     MISSING_TILE_404=True,
 )
 
-CACHES = {
+# CACHES = {
     # 'default': {
     #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     #     'LOCATION': 'fleeting-photons',
@@ -105,4 +105,3 @@ CACHES = {
     #         'PARSER_CLASS': 'redis.connection.HiredisParser'
     #     },
     # },
-}
