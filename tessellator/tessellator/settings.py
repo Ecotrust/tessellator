@@ -105,3 +105,4 @@ MBTILES_APP_CONFIG = dict(
     #         'PARSER_CLASS': 'redis.connection.HiredisParser'
     #     },
     # },
+# }
