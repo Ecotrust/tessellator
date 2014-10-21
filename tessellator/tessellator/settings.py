@@ -110,7 +110,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/home/point97/logs/frontend/django_tessellator001_debug.log',
+            'filename': '/home/point97/logs/user/django_tessellator001_debug.log',
         },
     },
     'loggers': {
