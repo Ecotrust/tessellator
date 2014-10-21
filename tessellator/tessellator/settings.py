@@ -101,6 +101,29 @@ STATIC_URL = '/static/'
     # },
 # }
 
+# Logging
+# TODO: Move logging configuration into the ini file
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/home/point97/logs/frontend/django_tessellator001_debug.log',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
+
 # TODO: Put the config parser into a P97.configuration module
 from ConfigParser import RawConfigParser
 class RawConfigParserWithDefaults(RawConfigParser):
