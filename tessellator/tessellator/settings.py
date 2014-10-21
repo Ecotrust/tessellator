@@ -8,16 +8,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import warnings
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+CONFIG_FILE = os.path.normpath(os.path.join(BASE_DIR, 'config.ini'))
+print CONFIG_FILE
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7m(qhquzp4)t(nk8*j5^2n@zcvqn1i4g=hpor@8fs#7jb#fgaq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +40,7 @@ INSTALLED_APPS = (
     
     'rpc4django',
     'api',
+    'root',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,14 +86,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# MBTILES config
-MBTILES_APP_CONFIG = dict(
-    MBTILES_EXT='mbtiles',
-    MBTILES_ROOT='/path/to/tiles',
-    TILE_SIZE=256,
-    MISSING_TILE_404=True,
-)
-
 # CACHES = {
     # 'default': {
     #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -106,3 +100,67 @@ MBTILES_APP_CONFIG = dict(
     #     },
     # },
 # }
+
+# TODO: Put the config parser into a P97.configuration module
+from ConfigParser import RawConfigParser
+class RawConfigParserWithDefaults(RawConfigParser):
+    """RawConfigParser modified to have return a default value if something
+    doesn't exist rather than throwing a NoSectionError.
+    """ 
+    def get(self, section, name, default=None):
+        if self.has_option(section, name):
+            return RawConfigParser.get(self, section, name)
+        else:
+            if default is None or self.has_section(section):
+                warnings.warn('Configuration missing: %s.%s, defaulting to %s\n' % (section, name, default))
+            return default
+    
+    def getlist(self, section, name):
+        result = self.get(section, name)
+        if not result:
+            return []
+        
+        # parse a comma-separated string into a list of strings
+        result = result.replace(' ', '')
+        result = result.split(',')
+        return result
+        
+    def getboolean(self, section, option, default=None):
+        result = self.get(section, option, default)
+        if type(result) is bool: 
+            return result
+        elif result.lower() in ('0', 'no', 'false'):
+            return False
+        elif result.lower() in ('1', 'yes', 'true'):
+            return True
+        else:
+            warnings.warn('Configuration value %s.%s is not a boolean\n' % (section, name))
+            return default
+
+    def getint(self, section, option, default=None):
+        result = self.get(section, option, default)
+        try:
+            return int(result)
+        except ValueError:
+            warnings.warn('Configuration value %s.%s is not an integer\n' % (section, name))
+            return default
+
+        
+config = RawConfigParserWithDefaults()
+config.read(CONFIG_FILE)
+
+# Webapp config
+# TODO: Maybe make a management command to generate a secret
+SECRET_KEY = config.get('APP', 'SECRET_KEY', default='set secret key')
+DEBUG = config.get('APP', 'DEBUG', True)
+TEMPLATE_DEBUG = config.get('APP', 'TEMPLATE_DEBUG', True)
+ALLOWED_HOSTS = config.getlist('APP', 'ALLOWED_HOSTS')
+
+# MBTILES config
+MBTILES_APP_CONFIG = dict(
+    MBTILES_EXT=config.get('MBTILES', 'EXT', 'mbtiles'),
+    MBTILES_ROOT=config.get('MBTILES', 'ROOT', '/tmp'),
+    TILE_SIZE=config.getint('MBTILES', 'TILE_SIZE', 256),
+    MISSING_TILE_404=config.getboolean('MBTILES', 'MISSING_TILE_404', True),
+)
+
