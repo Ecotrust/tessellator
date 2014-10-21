@@ -175,8 +175,8 @@ config.read(CONFIG_FILE)
 # Webapp config
 # TODO: Maybe make a management command to generate a secret
 SECRET_KEY = config.get('APP', 'SECRET_KEY', default='set secret key')
-DEBUG = config.get('APP', 'DEBUG', True)
-TEMPLATE_DEBUG = config.get('APP', 'TEMPLATE_DEBUG', True)
+DEBUG = config.getboolean('APP', 'DEBUG', True)
+TEMPLATE_DEBUG = config.getboolean('APP', 'TEMPLATE_DEBUG', True)
 ALLOWED_HOSTS = config.getlist('APP', 'ALLOWED_HOSTS')
 
 # MBTILES config
