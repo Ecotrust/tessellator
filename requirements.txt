@@ -1,5 +1,5 @@
 # Django 1.6.x
-Django<=1.7
+Django<1.8
 pillow
 -e git+https://github.com/point97/django-mbtiles.git#egg=django-mbtiles
 rpc4django>=0.3.0
