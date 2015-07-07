@@ -16,3 +16,4 @@ __pycache__/
 # tiles
 *.mbtiles
 config.ini
+db.sqlite3
