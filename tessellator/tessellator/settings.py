@@ -43,6 +43,21 @@ INSTALLED_APPS = (
     'root',
 )
 
+class CORSMiddleware(object):
+    """Always add CORS header to anything that comes back as JSON in the
+    hackiest possible way
+    """
+    def process_response(self, request, response):
+        if response.status_code != 200:
+            return response
+        if response.has_header('Content-type'):
+            content_type = response['Content-type']
+            if content_type == 'application/json':
+                if not response.has_header('Access-Control-Allow-Origin'):
+                    response['Access-Control-Allow-Origin'] = '*'
+        return response
+
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'tessellator.settings.CORSMiddleware',
 )
 
 ROOT_URLCONF = 'tessellator.urls'
