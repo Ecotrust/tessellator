@@ -54,8 +54,7 @@ class CORSMiddleware(object):
             content_type = response['Content-type']
             if 'application/json' in content_type or 'application/javascript' in content_type:
                 response['Access-Control-Allow-Origin'] = '*'
-                if request.has_header('Access-Control-Request-Headers'):
-                    response['Access-Control-Allow-Headers'] = request['Access-Control-Request-Headers']
+                response['Access-Control-Allow-Headers'] = 'x-requested-with'
         return response
 
 
