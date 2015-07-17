@@ -52,7 +52,7 @@ class CORSMiddleware(object):
             return response
         if response.has_header('Content-type'):
             content_type = response['Content-type']
-            if 'application/json' in content_type:
+            if 'application/json' in content_type or 'application/javascript' in content_type:
                 if not response.has_header('Access-Control-Allow-Origin'):
                     response['Access-Control-Allow-Origin'] = '*'
         return response
